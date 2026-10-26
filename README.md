@@ -1,17 +1,17 @@
 # AI Travel Planner
 
-This project is a command-line AI travel planner that uses live location, live weather-style data, and DeepSeek-based content generation to create travel plans with start and destination points. It produces both Markdown and PDF reports.
+This project is a command-line and FastAPI AI travel planner that uses live location, weather, map, and Google Gemini content generation to create travel plans with start and destination points. It produces both Markdown and PDF reports.
 
 ## Architecture
 
 - OpenStreetMap and Open-Meteo provide live location and weather context.
-- DeepSeek powers the travel-planning content generation when a key is provided.
-- The CLI entrypoint collects user input and writes reports to the outputs directory.
+- Google Gemini powers the travel-planning content generation when a valid GEMINI_API_KEY is configured.
+- The CLI entrypoint and FastAPI app collect user input and write reports to the outputs directory.
 
 ## Project Structure
 
 - crew/: planning flow and report generation
-- services/: location, weather, maps, DeepSeek, Markdown, PDF, and budgeting services
+- services/: location, weather, maps, Gemini, Markdown, PDF, and budgeting services
 - database/: optional trip history storage
 - outputs/: generated reports
 
@@ -22,10 +22,16 @@ This project is a command-line AI travel planner that uses live location, live w
    ```bash
    pip install -r requirements.txt
    ```
-3. Add your DeepSeek API key to .env if you want AI-generated content beyond the fallback.
+3. Add your Gemini API key to the project-root `.env` file:
+   ```env
+   GEMINI_API_KEY=your_key_here
+   GEMINI_MODEL=gemini-2.0-flash
+   GEMINI_TIMEOUT_SECONDS=30
+   DEFAULT_CURRENCY=INR
+   ```
 4. Run the planner:
    ```bash
-   python main.py --start "London" --destination "Paris" --days 4 --budget 2000 --travelers 2 --travel-style standard --preferences culture
+   python main.py --start "Bangalore" --destination "Mysore" --days 3 --budget 15000 --travelers 2 --travel-style standard --preferences heritage,food
    ```
 
 ## Output
@@ -38,5 +44,5 @@ The planner writes:
 ## Notes
 
 - The app uses live location and weather-style data sources by default.
-- If no DeepSeek API key is present, the system falls back to offline guidance so the CLI still runs.
+- Gemini is the only supported AI provider in this project.
 - Trip history can be enabled or disabled via the .env file.

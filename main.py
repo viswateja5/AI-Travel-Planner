@@ -20,6 +20,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--budget", type=float, default=1200.0, help="Estimated trip budget")
     parser.add_argument("--travelers", type=int, default=2, help="Number of travelers")
     parser.add_argument("--travel-style", default="standard", choices=["budget", "standard", "luxury"], help="Travel style")
+    parser.add_argument("--travel-mode", default="driving", choices=["driving", "public_transport", "walking", "cycling", "flight", "best_available"], help="Travel transit mode")
+    parser.add_argument("--currency", default="INR", choices=["INR"], help="Travel budget currency")
     parser.add_argument("--preferences", default="balanced", help="Travel preferences")
     return parser.parse_args()
 
@@ -47,6 +49,8 @@ def main() -> None:
         "budget": args.budget,
         "travelers": args.travelers,
         "travel_style": args.travel_style,
+        "travel_mode": args.travel_mode,
+        "currency": args.currency,
         "preferences": args.preferences,
     }
 
